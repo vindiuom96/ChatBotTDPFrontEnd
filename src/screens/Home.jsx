@@ -3,7 +3,6 @@ import './ScreenStyles.css';
 import logo from '../images/logo3.png';
 import Footer from '../screens/components/Footer';
 import Login from "./AdminLogin";
-import { BiUserCircle } from "react-icons/bi";
 import { BsSend } from "react-icons/bs";
 import QuestionConfirm from "./QuestionConfirm";
 import localserver from "../apis/server";
@@ -17,9 +16,14 @@ export default function Home()
     const[login, setLogin] = useState(false);
     const[questionList, setQuestionList] = useState(false);
     const[answer, setAnswer] = useState("Hello, How can I Help You?");
-    const[question, setQuestion] = useState("Hello, Chat Bot!");
+    const[question, setQuestion] = useState("");
     const[chat , setChat] = useState([])
+
     function getAnswer(){
+        if(question===""){
+            alert("Please Enter The Question")
+            return
+        }
         localserver.get("/getAnswer?question="+question,
             {})
       .then((res) => { 
@@ -68,6 +72,12 @@ function NavItemHandle(value)
     }
 }
 
+function logout(){
+    localStorage.removeItem("loged")
+    alert("Log out successfully")
+    setUserLogged(false)
+}
+
 useEffect(()=>{
     if(localStorage.getItem("loged")==="true"){
         setUserLogged(true)
@@ -85,7 +95,10 @@ useEffect(()=>{
                 </div>
                 <div className="home-nav-btn-content">
                     <button className="home-nav-btn" onClick={(e)=>NavItemHandle(0)}>Home</button>
-                    { userLogged && <button className="home-nav-btn" onClick={(e)=>NavItemHandle(1)}>Question List</button>}
+                    { userLogged && <>
+                        <button className="home-nav-btn" onClick={(e)=>NavItemHandle(1)}>Question List</button>
+                        <button className="home-nav-btn" onClick={logout}>Log out</button>
+                    </>}
                     { !userLogged && 
                     <dev>
                          <button className="home-nav-btn" onClick={(e)=>NavItemHandle(2)}>Login</button>
@@ -96,7 +109,7 @@ useEffect(()=>{
             </div>
 
            { home && <div className="home-body-content">
-                <button className="home-chat-new-chat-btn">New Chat</button>
+                <button className="home-chat-new-chat-btn" onClick={()=>{window.location.reload()}}>New Chat</button>
                 <div className="home-body-chat-content" style={{display:'block'}}>  
                     <div className="home-body-chat-card-question">
                         <p className="chat-card-text" style={{color:'#d81313'}}>{question}</p>
