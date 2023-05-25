@@ -1,0 +1,26 @@
+.footer-content {
+  height: 7vh;
+  width: 100%;
+  background-color: rgb(31, 30, 30);
+  top: 93%;
+  display: flex;
+  position: fixed;
+  justify-content: space-between;
+  position: absolute;
+}
+
+.footer-text {
+  color: white;
+}
+
+.footer-logout-icon {
+  color: white;
+  float: right;
+  margin-top: 2vh;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.footer-logout-icon:hover {
+  color: red;
+}
